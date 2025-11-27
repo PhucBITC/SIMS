@@ -1,0 +1,31 @@
+﻿@model SIMS_Project.Models.Course
+
+@{
+    ViewData["Title"] = "Xóa Khóa học";
+}
+
+<div class="container mt-4">
+    <div class="alert alert-danger shadow-sm">
+        <h3>⚠️ Xác nhận xóa</h3>
+        <p>Bạn có chắc chắn muốn xóa khóa học này không? Dữ liệu sẽ mất vĩnh viễn.</p>
+    </div>
+
+    <div class="card p-4 mb-3 shadow-sm">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Mã môn:</dt>
+            <dd class="col-sm-9"><span class="badge bg-secondary">@Model.CourseCode</span></dd>
+
+            <dt class="col-sm-3">Tên khóa học:</dt>
+            <dd class="col-sm-9 fw-bold">@Model.CourseName</dd>
+
+            <dt class="col-sm-3">Số tín chỉ:</dt>
+            <dd class="col-sm-9">@Model.Credits</dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xóa luôn</button>
+        <a asp-action="Index" class="btn btn-secondary">Thôi, quay lại</a>
+    </form>
+</div>

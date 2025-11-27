@@ -1,0 +1,28 @@
+﻿@model SIMS_Project.Models.Enrollment
+
+@{
+    ViewData["Title"] = "Hủy đăng ký";
+}
+
+<div class="container mt-4">
+    <div class="alert alert-danger shadow-sm">
+        <h3>⚠️ Xác nhận hủy môn học</h3>
+        <p>Bạn có chắc chắn muốn hủy đăng ký môn học này không?</p>
+    </div>
+
+    <div class="card p-4 mb-3 shadow-sm">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Sinh viên:</dt>
+            <dd class="col-sm-9 fw-bold">@Model.StudentName</dd>
+
+            <dt class="col-sm-3">Môn học:</dt>
+            <dd class="col-sm-9"><span class="badge bg-primary">@Model.CourseName</span></dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xác nhận Hủy</button>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

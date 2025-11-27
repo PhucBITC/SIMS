@@ -1,0 +1,56 @@
+﻿@model List<SIMS_Project.Models.Course>
+
+@{
+    ViewData["Title"] = "Danh sách Khóa học";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>📚 Quản lý Khóa học</h2>
+        <a asp-action="Create" class="btn btn-primary">
+            + Thêm Khóa học
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Mã môn</th>
+                        <th>Tên khóa học</th>
+                        <th>Số tín chỉ</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td><span class="badge bg-info text-dark">@item.CourseCode</span></td>
+                                <td>@item.CourseName</td>
+                                <td>@item.Credits</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                <em>Chưa có khóa học nào. Hãy thêm mới!</em>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

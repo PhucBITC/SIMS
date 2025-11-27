@@ -1,0 +1,38 @@
+﻿@model SIMS_Project.Models.Student
+
+@{
+    ViewData["Title"] = "Cập nhật thông tin";
+}
+
+<div class="container mt-4">
+    <h2>✏️ Cập nhật Sinh viên</h2>
+    <div class="card shadow-sm p-4">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label class="form-label">Họ và Tên</label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Ngày sinh</label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Lớp</label>
+                <input asp-for="ClassName" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-warning">Lưu thay đổi</button>
+            <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+        </form>
+    </div>
+</div>

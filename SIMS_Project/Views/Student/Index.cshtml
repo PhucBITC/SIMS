@@ -1,0 +1,58 @@
+﻿@model List<SIMS_Project.Models.Student>
+@{
+    ViewData["Title"] = "Danh sách Sinh viên";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>🎓 Quản lý Sinh viên</h2>
+        <a asp-controller="Student" asp-action="Create" class="btn btn-primary">
+            + Thêm mới
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Họ và Tên</th>
+                        <th>Ngày sinh</th>
+                        <th>Email</th>
+                        <th>Lớp</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.FullName</td>
+                                <td>@item.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                                <td>@item.Email</td>
+                                <td>@item.ClassName</td>
+                                <td>
+                                    <a asp-controller="Student" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                                    <a asp-controller="Student" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                                </td>
+                                
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">
+                                <em>Chưa có dữ liệu sinh viên nào. Hãy thêm mới!</em>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

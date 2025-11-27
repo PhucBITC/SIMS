@@ -1,0 +1,28 @@
+﻿@model SIMS_Project.Models.Enrollment
+@{
+    ViewData["Title"] = "Đăng ký môn";
+}
+
+<div class="container mt-4">
+    <div class="card shadow col-md-6 mx-auto">
+        <div class="card-header bg-primary text-white">
+            <h4>Đăng ký Môn học cho Sinh viên</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">Chọn Sinh viên:</label>
+                    <select asp-for="StudentId" class="form-control" asp-items="ViewBag.Students"></select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Chọn Khóa học:</label>
+                    <select asp-for="CourseId" class="form-control" asp-items="ViewBag.Courses"></select>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">Xác nhận Đăng ký</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+﻿@model SIMS_Project.Models.Enrollment
+@{
+    ViewData["Title"] = "Sửa Đăng ký";
+}
+
+<div class="container mt-4">
+    <div class="card shadow col-md-6 mx-auto">
+        <div class="card-header bg-warning text-dark">
+            <h4>✏️ Chỉnh sửa Đăng ký</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" /> <div class="mb-3">
+                    <label class="form-label">Sinh viên:</label>
+                    <select asp-for="StudentId" class="form-control" asp-items="ViewBag.Students"></select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Khóa học:</label>
+                    <select asp-for="CourseId" class="form-control" asp-items="ViewBag.Courses"></select>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-warning w-100">Lưu thay đổi</button>
+                    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
