@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using SIMS_Project.Data;
+using SIMS_Project.Interface;
 using System.Security.Claims;
 
 namespace SIMS_Project.Controllers

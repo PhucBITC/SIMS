@@ -1,10 +1,16 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SIMS_Project.Data;
+using SIMS_Project.Interface;
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<SIMS_ProjectContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SIMS_ProjectContext") ?? throw new InvalidOperationException("Connection string 'SIMS_ProjectContext' not found.")));
 // Đăng ký dịch vụ Repository
 // Scoped: Mỗi lần có request HTTP mới sẽ tạo lại Repository này
-builder.Services.AddScoped<SIMS_Project.Data.IStudentRepository, SIMS_Project.Data.StudentRepository>();
-builder.Services.AddScoped<SIMS_Project.Data.ICourseRepository, SIMS_Project.Data.CourseRepository>();
-builder.Services.AddScoped<SIMS_Project.Data.IEnrollmentRepository, SIMS_Project.Data.EnrollmentRepository>();
-builder.Services.AddScoped<SIMS_Project.Data.IUserRepository, SIMS_Project.Data.UserRepository>();
+builder.Services.AddScoped<IStudentRepository, SIMS_Project.Data.StudentRepository>();
+builder.Services.AddScoped<ICourseRepository, SIMS_Project.Data.CourseRepository>();
+builder.Services.AddScoped<IEnrollmentRepository, SIMS_Project.Data.EnrollmentRepository>();
+builder.Services.AddScoped<IUserRepository, SIMS_Project.Data.UserRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

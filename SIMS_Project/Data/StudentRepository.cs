@@ -1,7 +1,9 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration; // Cần dùng để config CSV
+using SIMS_Project.Interface;
 using SIMS_Project.Models;
 using System.Globalization;
+using System.IO;
 
 namespace SIMS_Project.Data
 {
@@ -10,10 +12,20 @@ namespace SIMS_Project.Data
         // Bỏ chữ readonly đi để có thể thay đổi đường dẫn nếu cần
         private string _filePath;
 
-        // Sửa Constructor: Cho phép truyền tên file vào (nếu không truyền thì mặc định là students.csv)
+        // Constructor: Cho phép truyền tên file vào (nếu không truyền thì mặc định là students.csv)
+        // If a relative filename is provided, it's stored under CSV_DATA folder.
         public StudentRepository(string filePath = "students.csv")
         {
-            _filePath = filePath; // Gán đường dẫn
+            _filePath = Path.IsPathRooted(filePath) ? filePath : Path.Combine("CSV_DATA", filePath);
+
+            var dir = Path.GetDirectoryName(_filePath);
+            if (string.IsNullOrEmpty(dir))
+            {
+                dir = "CSV_DATA";
+                _filePath = Path.Combine(dir, Path.GetFileName(_filePath));
+            }
+
+            Directory.CreateDirectory(dir);
 
             if (!File.Exists(_filePath))
             {
