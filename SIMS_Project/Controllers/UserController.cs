@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using SIMS_Project.Interface;
+using SIMS_Project.Models;
 using System.Security.Claims;
 
 namespace SIMS_Project.Controllers
 {
-    public class AccountController : Controller
+    public class UserController : Controller
     {
         private readonly IUserRepository _userRepo;
 
-        public AccountController(IUserRepository userRepo)
+        public UserController(IUserRepository userRepo)
         {
             _userRepo = userRepo;
         }
@@ -48,14 +49,45 @@ namespace SIMS_Project.Controllers
             return View();
         }
 
-        // 3. Đăng xuất
+        // 1. GET: Show the Registration Form
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // 2. POST: Handle the submitted data
+        [HttpPost]
+        public IActionResult Register(User user)
+        {
+            // Basic validation
+            if (ModelState.IsValid)
+            {
+                // Check if username already exists (Optional but good practice)
+                if (_userRepo.UsernameExists(user.Username))
+                {
+                    ViewBag.Error = "Username already exists!";
+                    return View(user);
+                }
+
+                // Save the new user
+                // Note: The Repo will handle Auto-Incrementing the ID
+                _userRepo.AddUser(user);
+
+                // Redirect to Login page after successful registration
+                return RedirectToAction("Login");
+            }
+
+            return View(user);
+        }
+
+        // 4. Đăng xuất
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync("CookieAuth");
             return RedirectToAction("Login");
         }
 
-        // 4. Trang báo lỗi khi không có quyền
+        // 5. Trang báo lỗi khi không có quyền
         public IActionResult AccessDenied()
         {
             return View();
