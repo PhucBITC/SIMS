@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering; // Cần cái này để làm Dropdown list
+using SIMS_Project.Data;
 using SIMS_Project.Interface;
 using SIMS_Project.Models;
 

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SIMS_Project.Data;
 using SIMS_Project.Interface;
 using SIMS_Project.Models;
+
 
 namespace SIMS_Project.Controllers
 {
