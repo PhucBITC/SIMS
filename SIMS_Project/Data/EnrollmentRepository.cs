@@ -6,21 +6,10 @@ using System.Globalization;
 
 namespace SIMS_Project.Data
 {
-    public class EnrollmentRepository : IEnrollmentRepository
+    public class EnrollmentRepository : BaseCsvRepository<Course>, IEnrollmentRepository
     {
-        private readonly string _filePath = "enrollments.csv";
-
-        public EnrollmentRepository()
+        public EnrollmentRepository(string filePath = "enrollments.csv") : base(filePath)
         {
-            if (!File.Exists(_filePath))
-            {
-                using (var writer = new StreamWriter(_filePath))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                {
-                    csv.WriteHeader<Enrollment>();
-                    csv.NextRecord();
-                }
-            }
         }
 
         public List<Enrollment> GetAll()
