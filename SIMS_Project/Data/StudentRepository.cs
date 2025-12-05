@@ -7,35 +7,10 @@ using System.IO;
 
 namespace SIMS_Project.Data
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : BaseCsvRepository<Student>, IStudentRepository
     {
-        // Bỏ chữ readonly đi để có thể thay đổi đường dẫn nếu cần
-        private string _filePath;
-
-        // Constructor: Cho phép truyền tên file vào (nếu không truyền thì mặc định là students.csv)
-        // If a relative filename is provided, it's stored under CSV_DATA folder.
-        public StudentRepository(string filePath = "students.csv")
+        public StudentRepository(string filePath = "students.csv") : base(filePath)
         {
-            _filePath = Path.IsPathRooted(filePath) ? filePath : Path.Combine("CSV_DATA", filePath);
-
-            var dir = Path.GetDirectoryName(_filePath);
-            if (string.IsNullOrEmpty(dir))
-            {
-                dir = "CSV_DATA";
-                _filePath = Path.Combine(dir, Path.GetFileName(_filePath));
-            }
-
-            Directory.CreateDirectory(dir);
-
-            if (!File.Exists(_filePath))
-            {
-                using (var writer = new StreamWriter(_filePath))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                {
-                    csv.WriteHeader<Student>();
-                    csv.NextRecord();
-                }
-            }
         }
 
         public List<Student> GetAllStudents()

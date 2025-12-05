@@ -7,34 +7,11 @@ using System.IO;
 
 namespace SIMS_Project.Data
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseCsvRepository<User>, IUserRepository
     {
-        private string _filePath;
-
-        // Place relative filenames under CSV_DATA by default.
-        public UserRepository(string filePath = "users.csv")
-        {
-            _filePath = Path.IsPathRooted(filePath) ? filePath : Path.Combine("CSV_DATA", filePath);
-
-            var dir = Path.GetDirectoryName(_filePath);
-            if (string.IsNullOrEmpty(dir))
-            {
-                dir = "CSV_DATA";
-                _filePath = Path.Combine(dir, Path.GetFileName(_filePath));
-            }
-
-            Directory.CreateDirectory(dir);
-
-            if (!File.Exists(_filePath))
-            {
-                using (var writer = new StreamWriter(_filePath))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                {
-                    csv.WriteHeader<User>();
-                    csv.NextRecord();
-                }
-            }
-        }
+       public UserRepository(string filePath = "users.csv") : base(filePath)
+       {
+       }
 
         public User Login(string username, string password)
         {
@@ -47,6 +24,29 @@ namespace SIMS_Project.Data
                 var users = csv.GetRecords<User>().ToList();
                 // Tìm người có username và password khớp
                 return users.FirstOrDefault(u => u.Username == username && u.Password == password);
+            }
+        }
+        public void AddUser(User newUser)
+        {
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = false };
+            using (var stream = File.Open(_filePath, FileMode.Append))
+            using (var writer = new StreamWriter(stream))
+            using (var csv = new CsvWriter(writer, config))
+            {
+                csv.WriteRecord(newUser);
+                csv.NextRecord();
+            }
+        }
+
+        public bool UsernameExists(string username)
+        {
+            if (!File.Exists(_filePath)) return false;
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true, MissingFieldFound = null };
+            using (var reader = new StreamReader(_filePath))
+            using (var csv = new CsvReader(reader, config))
+            {
+                var users = csv.GetRecords<User>().ToList();
+                return users.Any(u => u.Username == username);
             }
         }
     }

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SIMS_Project.styles.css" asp-append-version="true" />
+
 </head>
 <body>
 
@@ -54,17 +55,16 @@
                                 <span class="nav-link text-primary">Xin chào, <strong>@User.Identity.Name</strong>!</span>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-danger btn-sm mt-1 ms-2" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+                                <a class="btn btn-outline-danger btn-sm mt-1 ms-2" asp-controller="User" asp-action="Logout">Đăng xuất</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="btn btn-primary btn-sm mt-1" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                                <a class="btn btn-primary btn-sm mt-1" asp-controller="User" asp-action="Login">Đăng nhập</a>
                             </li>
                         }
                     </ul>
-
                 </div>
             </div>
         </nav>
