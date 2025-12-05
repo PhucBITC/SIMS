@@ -1,16 +1,30 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using SIMS_Project.Interface;
 using SIMS_Project.Models;
 using System.Globalization;
+using System.IO;
 
 namespace SIMS_Project.Data
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly string _filePath = "courses.csv";
+        private string _filePath;
 
-        public CourseRepository()
+        // Allow optional file name; if relative it will be placed under CSV_DATA
+        public CourseRepository(string filePath = "courses.csv")
         {
+            _filePath = Path.IsPathRooted(filePath) ? filePath : Path.Combine("CSV_DATA", filePath);
+
+            var dir = Path.GetDirectoryName(_filePath);
+            if (string.IsNullOrEmpty(dir))
+            {
+                dir = "CSV_DATA";
+                _filePath = Path.Combine(dir, Path.GetFileName(_filePath));
+            }
+
+            Directory.CreateDirectory(dir);
+
             if (!File.Exists(_filePath))
             {
                 using (var writer = new StreamWriter(_filePath))

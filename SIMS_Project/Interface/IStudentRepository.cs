@@ -1,6 +1,6 @@
 ﻿using SIMS_Project.Models;
 
-namespace SIMS_Project.Data
+namespace SIMS_Project.Interface
 {
     public interface IStudentRepository
     {
