@@ -41,9 +41,18 @@ namespace SIMS_Project.Controllers
                 // Ghi Cookie vào trình duyệt (Đăng nhập xong)
                 HttpContext.SignInAsync("CookieAuth", principal);
 
-                return RedirectToAction("Index", "Home"); // Chuyển về trang chủ
-            }
+                if (user.Role == "Admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else if (user.Role == "Student")
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Index", "Home");
 
+
+            }
             ViewBag.Error = "Sai tên đăng nhập hoặc mật khẩu!";
             return View();
         }
@@ -52,7 +61,7 @@ namespace SIMS_Project.Controllers
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync("CookieAuth");
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
 
         // 4. Trang báo lỗi khi không có quyền

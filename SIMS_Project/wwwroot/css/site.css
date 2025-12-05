@@ -1,11 +1,18 @@
-html {
-    font-size: 14px;
-}
-
-* {
+/* ============================
+   RESET CƠ BẢN – SAFE CHO STICKY/FIXED
+=============================== */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -14,36 +21,12 @@ body {
     color: #333;
 }
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}
-
-body {
-    margin-bottom: 60px;
-}
-
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-    color: var(--bs-secondary-color);
-    text-align: end;
-}
-
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-    text-align: start;
-}
+/* ============================
+   HOME - HERO SECTION
+=============================== */
 
 
-/*Home User body*/
+
 .hero {
     background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
     color: white;
@@ -79,6 +62,7 @@ body {
     animation: fadeInUp 1s ease 0.4s both;
 }
 
+/* BUTTONS */
 .btn {
     padding: 1rem 2rem;
     border-radius: 50px;
@@ -110,17 +94,14 @@ body {
         color: #00b09b;
     }
 
-/* Features Section */
+/* ============================
+   FEATURES
+=============================== */
 .features {
     padding: 80px 0;
     background: #f8f9fa;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
 
 .section-title {
     text-align: center;
@@ -168,7 +149,9 @@ body {
     line-height: 1.6;
 }
 
-/* Why Choose Us Section */
+/* ============================
+   WHY CHOOSE US
+=============================== */
 .why-choose-us {
     padding: 80px 0;
     background: white;
@@ -211,7 +194,9 @@ body {
     font-size: 0.9rem;
 }
 
-/* CTA Section */
+/* ============================
+   CTA SECTION
+=============================== */
 .cta-section {
     background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
     color: white;
@@ -230,21 +215,9 @@ body {
         opacity: 0.9;
     }
 
-/* Footer */
-.footer {
-    background: #333;
-    color: white;
-    padding: 40px 0;
-    text-align: center;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-/* Animations */
+/* ============================
+   ANIMATIONS
+=============================== */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -257,7 +230,9 @@ body {
     }
 }
 
-/* Responsive Design */
+/* ============================
+   RESPONSIVE
+=============================== */
 @media (max-width: 768px) {
     .hero h1 {
         font-size: 2.5rem;
@@ -267,19 +242,12 @@ body {
         font-size: 1.1rem;
     }
 
-    .nav-links {
-        display: none;
-    }
-
     .hero-buttons {
         flex-direction: column;
         align-items: center;
     }
 
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-
+    .features-grid,
     .benefits-grid {
         grid-template-columns: 1fr;
     }

@@ -1,11 +1,13 @@
-﻿namespace SIMS_Project.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SIMS_Project.Models
 {
     public class User
     {
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string Role { get; set; } // "Admin" hoặc "Student"
+        public string Role { get; set; } // "Admin" hoặc "Student" Giảng 
         public string FullName { get; set; }
     }
 }

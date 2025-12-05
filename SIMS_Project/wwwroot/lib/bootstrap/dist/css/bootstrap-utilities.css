@@ -410,7 +410,7 @@
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  z-index: 1020;
+  z-index: 1020 !important;
 }
 
 .sticky-bottom {
