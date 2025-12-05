@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 using Microsoft.Extensions.DependencyInjection;
 using SIMS_Project.Data;
 using SIMS_Project.Interface;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<SIMS_ProjectContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SIMS_ProjectContext") ?? throw new InvalidOperationException("Connection string 'SIMS_ProjectContext' not found.")));
+
 // Đăng ký dịch vụ Repository
 // Scoped: Mỗi lần có request HTTP mới sẽ tạo lại Repository này
 builder.Services.AddScoped<IStudentRepository, SIMS_Project.Data.StudentRepository>();
@@ -18,8 +17,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", options =>
     {
-        options.LoginPath = "/Account/Login"; // Chưa đăng nhập thì đá về trang này
-        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.LoginPath = "/User/Login"; // Chưa đăng nhập thì đá về trang này
+        options.AccessDeniedPath = "/User/AccessDenied";
     });
 
 
