@@ -7,33 +7,10 @@ using System.IO;
 
 namespace SIMS_Project.Data
 {
-    public class CourseRepository : ICourseRepository
+    public class CourseRepository :  BaseCsvRepository<Course>, ICourseRepository
     {
-        private string _filePath;
-
-        // Allow optional file name; if relative it will be placed under CSV_DATA
-        public CourseRepository(string filePath = "courses.csv")
+        public CourseRepository(string filePath = "courses.csv") : base(filePath)
         {
-            _filePath = Path.IsPathRooted(filePath) ? filePath : Path.Combine("CSV_DATA", filePath);
-
-            var dir = Path.GetDirectoryName(_filePath);
-            if (string.IsNullOrEmpty(dir))
-            {
-                dir = "CSV_DATA";
-                _filePath = Path.Combine(dir, Path.GetFileName(_filePath));
-            }
-
-            Directory.CreateDirectory(dir);
-
-            if (!File.Exists(_filePath))
-            {
-                using (var writer = new StreamWriter(_filePath))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                {
-                    csv.WriteHeader<Course>();
-                    csv.NextRecord();
-                }
-            }
         }
 
         public List<Course> GetAllCourses()
