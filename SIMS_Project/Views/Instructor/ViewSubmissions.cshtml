@@ -1,0 +1,59 @@
+﻿@model List<SIMS_Project.Models.Submission>
+@{
+    ViewData["Title"] = "Grading";
+    var assignment = ViewBag.Assignment as SIMS_Project.Models.Assignment;
+}
+
+<div class="container mt-4">
+    <a asp-action="CourseManager" asp-route-id="@ViewBag.CourseId" class="btn btn-secondary mb-3">&larr; Back to Course</a>
+
+    <h3>Grading: @assignment.Title</h3>
+    <p class="text-muted">Due Date: @assignment.DueDate</p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Submitted At</th>
+                <th>Content</th>
+                <th>Grade</th>
+                <th>Feedback</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var sub in Model)
+                {
+                    <tr>
+                        <td>@sub.StudentId</td>
+                        <td>@sub.SubmittedAt</td>
+                        <td>
+                            @* Assuming SubmissionText is just text for now, or a link if file *@
+                            @sub.SubmissionText
+                        </td>
+                        <form asp-action="GradeSubmission" method="post">
+                            <input type="hidden" name="submissionId" value="@sub.Id" />
+                        <td>
+                            <input type="number" name="score" step="0.1" max="10" min="0" class="form-control" value="@sub.Score" style="width: 80px;" />
+                        </td>
+                        <td>
+                            <input type="text" name="feedback" class="form-control" value="@sub.Feedback" placeholder="Comment..." />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                        </td>
+                        </form>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No submissions yet.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

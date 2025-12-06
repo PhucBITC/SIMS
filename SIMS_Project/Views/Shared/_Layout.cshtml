@@ -11,34 +11,52 @@
 <body>
     @if (!(ViewData["NoHeaderFooter"] as bool? ?? false))
     {
-        <!-- HEADER -->
         <header class="sticky-top">
             <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm">
                 <div class="container">
-                    
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <!-- Left nav links -->
                         <ul class="navbar-nav me-auto mb-2 mb-sm-0">
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">Dashboard</a>
+                                    @* 1. Dynamic Dashboard Link *@
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">Dashboard</a>
+                                    }
+                                    else if (User.IsInRole("Instructor"))
+                                    {
+                                        <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Instructor" asp-action="Index">Dashboard</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
+                                    }
 
                                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
                                 </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link fw-bold text-dark" asp-controller="Student" asp-action="Index">Manage Student</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link fw-bold text-dark" asp-controller="Course" asp-action="Index">Manage Course</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link fw-bold text-dark" asp-controller="Enrollment" asp-action="Index">Đăng ký Môn học</a>
-                                </li>
+                                @* 2. ADMIN ONLY MENUS *@
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link fw-bold text-dark" asp-controller="Student" asp-action="Index">Manage Student</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link fw-bold text-dark" asp-controller="Course" asp-action="Index">Manage Course</a>
+                                    </li>
+                                }
+
+                                @* 3. STUDENT ONLY MENUS *@
+                                @if (User.IsInRole("Student"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link fw-bold text-dark" asp-controller="Enrollment" asp-action="Index">Đăng ký Môn học</a>
+                                    </li>
+                                }
                             }
                             else
                             {
@@ -59,7 +77,6 @@
                             }
                         </ul>
 
-                        <!-- Right nav links / user info -->
                         <ul class="navbar-nav mb-2 mb-sm-0 d-flex align-items-center">
                             @if (User.Identity.IsAuthenticated)
                             {
@@ -86,16 +103,15 @@
         </header>
     }
 
-    <!-- BODY CONTENT -->
     <main role="main" class="pb-4">
         <div class="container">
             @RenderBody()
         </div>
     </main>
 
+    @* --- FOOTER IS KEPT HERE --- *@
     @if (!(ViewData["NoHeaderFooter"] as bool? ?? false))
     {
-        <!-- FOOTER -->
         <footer class="container text-center p-4 bg-light mt-auto">
             &copy; 2024 - SIMS_Project -
             <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
@@ -108,4 +124,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-    

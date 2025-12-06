@@ -29,18 +29,23 @@ namespace SIMS_Project.Data
 
         public void AddStudent(Student student)
         {
+            var students = GetAllStudents();
+
+            // Auto-increment logic moved here (Encapsulation)
+            int newId = (students.Count > 0) ? students.Max(s => s.Id) + 1 : 1;
+            student.Id = newId;
+
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                HasHeaderRecord = true, // Ghi tiếp thì phải cẩn thận header
+                HasHeaderRecord = false, // NOTE: Set false if appending to existing file to avoid writing header again
             };
 
-            // Chế độ Append = true (Ghi nối tiếp vào cuối file)
             using (var stream = File.Open(_filePath, FileMode.Append))
             using (var writer = new StreamWriter(stream))
             using (var csv = new CsvWriter(writer, config))
             {
                 csv.WriteRecord(student);
-                csv.NextRecord(); // Xuống dòng
+                csv.NextRecord();
             }
         }
         // Hàm tìm sinh viên theo ID (Để dùng cho Sửa/Xóa)
