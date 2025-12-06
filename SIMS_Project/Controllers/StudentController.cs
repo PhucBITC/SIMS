@@ -37,33 +37,11 @@ namespace SIMS_Project.Controllers
         [HttpPost]
         public IActionResult Create(Student student)
         {
-            // Kiểm tra dữ liệu hợp lệ (ví dụ: có nhập tên chưa?)
             if (ModelState.IsValid)
             {
-                // --- Logic tự động tạo ID (Auto-Increment) ---
-                // Vì CSV không tự tăng ID như SQL, ta phải tự làm thủ công:
-                // Lấy tất cả sinh viên ra để xem ID lớn nhất là bao nhiêu
-                var existingStudents = _studentRepository.GetAllStudents();
-
-                if (existingStudents.Count > 0)
-                {
-                    // ID mới = ID lớn nhất + 1
-                    student.Id = existingStudents.Max(s => s.Id) + 1;
-                }
-                else
-                {
-                    // Nếu chưa có ai thì ID là 1
-                    student.Id = 1;
-                }
-
-                // Gọi Repository để lưu vào CSV
-                _studentRepository.AddStudent(student);
-
-                // Lưu xong thì quay về trang danh sách
+                _studentRepository.AddStudent(student); // Repository handles the ID
                 return RedirectToAction("Index");
             }
-
-            // Nếu dữ liệu lỗi thì hiện lại form để nhập lại
             return View(student);
         }
 

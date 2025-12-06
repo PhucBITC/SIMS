@@ -9,5 +9,6 @@ namespace SIMS_Project.Interface
         void Delete(int id);
         Enrollment GetById(int id);       // Cần cái này để load dữ liệu cũ lên form sửa
         void Update(Enrollment enrollment); // Hàm sửa
+        int GetTotalStudentsForInstructor(List<int> courseIds);
     }
 }

@@ -3,14 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using SIMS_Project.Interface;
 using SIMS_Project.Models;
 using System.Security.Claims;
-using System.Security.Claims;
 
 namespace SIMS_Project.Controllers
 {
     [Authorize(Roles = "Instructor")]
     public class InstructorController : Controller
     {
-        // We need all these repositories to populate the Dashboard & Manage Content
         private readonly ICourseRepository _courseRepo;
         private readonly IAssignmentRepository _assignmentRepo;
         private readonly ISubmissionRepository _submissionRepo;
@@ -33,26 +31,18 @@ namespace SIMS_Project.Controllers
             _enrollmentRepo = enrollmentRepo;
         }
 
-        // ==========================================
-        // 1. DASHBOARD (Fixed to return ViewModel)
-        // ==========================================
+        // 1. DASHBOARD
         public IActionResult Index()
         {
             int instructorId = GetCurrentUserId();
             var instructor = _userRepo.GetUserById(instructorId);
             var myCourses = _courseRepo.GetCoursesByInstructor(instructorId);
+
+            var myCourseIds = myCourses.Select(c => c.Id).ToList();
+
+            var totalStudents = _enrollmentRepo.GetTotalStudentsForInstructor(myCourseIds);
             var allEnrollments = _enrollmentRepo.GetAll();
 
-            // Calculate Stats for the Dashboard
-            // 1. Total Students (Unique students across all my courses)
-            var myCourseIds = myCourses.Select(c => c.Id).ToList();
-            var totalStudents = allEnrollments
-                                .Where(e => myCourseIds.Contains(e.CourseId))
-                                .Select(e => e.StudentId)
-                                .Distinct()
-                                .Count();
-
-            // 2. Build Course View Models
             var courseViewModels = myCourses.Select(c => new CourseViewModel
             {
                 Id = c.Id,
@@ -60,44 +50,33 @@ namespace SIMS_Project.Controllers
                 CourseCode = c.CourseCode,
                 Description = c.Description,
                 StudentCount = allEnrollments.Count(e => e.CourseId == c.Id),
-                // Count assignments for this specific course
                 AssignmentCount = _assignmentRepo.GetByCourse(c.Id).Count
             }).ToList();
 
-            // 3. Create the Main ViewModel
             var viewModel = new InstructorDashboardViewModel
             {
                 Instructor = instructor,
                 Courses = courseViewModels,
                 TotalCourses = myCourses.Count,
-                TotalStudents = totalStudents,
-                // Sum of all assignments in my courses
+                TotalStudents = totalStudents, 
                 TotalAssignments = courseViewModels.Sum(c => c.AssignmentCount),
-                PendingGrades = 0 // Placeholder logic for now
             };
 
             return View(viewModel);
         }
 
-        // ==========================================
-        // 2. COURSE MANAGER (The "Teacher" View)
-        // ==========================================
+
         public IActionResult CourseManager(int id)
         {
             var course = _courseRepo.GetById(id);
-            // Security: Ensure the instructor owns this course
             if (course == null || course.InstructorId != GetCurrentUserId()) return Forbid();
 
-            // Load Content
             ViewBag.Assignments = _assignmentRepo.GetByCourse(id);
             ViewBag.Materials = _materialRepo.GetByCourse(id);
 
             return View(course);
         }
 
-        // ==========================================
-        // 3. CREATE ASSIGNMENT & SET DATE
-        // ==========================================
         [HttpPost]
         public IActionResult CreateAssignment(int courseId, string title, DateTime dueDate, string description)
         {
@@ -116,9 +95,6 @@ namespace SIMS_Project.Controllers
             return RedirectToAction("CourseManager", new { id = courseId });
         }
 
-        // ==========================================
-        // 4. UPLOAD MATERIAL
-        // ==========================================
         [HttpPost]
         public IActionResult UploadMaterial(int courseId, string title, IFormFile file)
         {
@@ -127,14 +103,11 @@ namespace SIMS_Project.Controllers
 
             if (file != null)
             {
-                // Simple file saving logic
                 var fileName = Path.GetFileName(file.FileName);
-                // Ensure wwwroot/uploads exists
                 var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
                 if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
 
                 var filePath = Path.Combine(uploadsPath, fileName);
-
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     file.CopyTo(stream);
@@ -142,17 +115,41 @@ namespace SIMS_Project.Controllers
 
                 _materialRepo.Add(new Material { CourseId = courseId, Title = title, FilePath = fileName });
             }
-
             return RedirectToAction("CourseManager", new { id = courseId });
-
         }
-        // Add this inside the InstructorController class
+
+        public IActionResult ViewSubmissions(int assignmentId)
+        {
+            var assignment = _assignmentRepo.GetById(assignmentId);
+            if (assignment == null) return NotFound();
+
+            var course = _courseRepo.GetById(assignment.CourseId);
+            if (course.InstructorId != GetCurrentUserId()) return Forbid();
+
+            var submissions = _submissionRepo.GetByAssignment(assignmentId);
+
+            ViewBag.Assignment = assignment;
+            ViewBag.CourseId = course.Id;
+
+            return View(submissions);
+        }
+
+        [HttpPost]
+        public IActionResult GradeSubmission(int submissionId, double score, string feedback)
+        {
+            var submission = _submissionRepo.GetById(submissionId);
+            if (submission != null)
+            {
+                _submissionRepo.UpdateGrade(submissionId, score, feedback);
+                return RedirectToAction("ViewSubmissions", new { assignmentId = submission.AssignmentId });
+            }
+            return NotFound();
+        }
+
         private int GetCurrentUserId()
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
             return claim != null ? int.Parse(claim.Value) : 0;
         }
-        // ==========================================
-        // 5. GR
     }
 }
