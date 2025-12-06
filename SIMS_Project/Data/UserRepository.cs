@@ -12,7 +12,25 @@ namespace SIMS_Project.Data
        public UserRepository(string filePath = "users.csv") : base(filePath)
        {
        }
+        private List<User> GetAllUsers()
+        {
+            if (!File.Exists(_filePath)) return new List<User>();
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true, MissingFieldFound = null };
+            using (var reader = new StreamReader(_filePath))
+            using (var csv = new CsvReader(reader, config))
+            {
+                return csv.GetRecords<User>().ToList();
+            }
+        }
+        public List<User> GetInstructors()
+        {
+            return GetAllUsers().Where(u => u.Role == "Instructor").ToList();
+        }
 
+        public User GetUserById(int id)
+        {
+            return GetAllUsers().FirstOrDefault(u => u.Id == id);
+        }
         public User Login(string username, string password)
         {
             if (!File.Exists(_filePath)) return null;

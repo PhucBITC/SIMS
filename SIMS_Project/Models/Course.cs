@@ -6,17 +6,22 @@ namespace SIMS_Project.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập tên khóa học")]
-        [Display(Name = "Tên khóa học")]
-        public string CourseName { get; set; } // Ví dụ: Lập trình C#
+        [Required(ErrorMessage = "Course Name is required")]
+        [Display(Name = "Course Name")]
+        public string CourseName { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập mã môn")]
-        [Display(Name = "Mã môn")]
-        public string CourseCode { get; set; } // Ví dụ: PRN211
+        [Required(ErrorMessage = "Course Code is required")]
+        [Display(Name = "Course Code")]
+        public string CourseCode { get; set; }
 
-        [Required]
-        [Range(1, 5, ErrorMessage = "Số tín chỉ từ 1 đến 5")]
-        [Display(Name = "Số tín chỉ")]
-        public int Credits { get; set; }
+        [Required(ErrorMessage = "Description is required")]
+        public string Description { get; set; }
+
+        [Display(Name = "Created At")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [Required(ErrorMessage = "Instructor is required")]
+        [Display(Name = "Instructor")]
+        public int InstructorId { get; set; }
     }
 }

@@ -1,4 +1,2 @@
-Id,CourseName,CourseCode,Credits
-1,lập trình c#,7429,4
-2,Lập trình C++,7428,5
-3,LẬP TRÌNH JAVA,7777,3
+Id,CourseName,CourseCode,Description,CreatedAt,InstructorId
+1,Lap trinh C#,SE07201,Testing,12/06/2025 15:40:34,0

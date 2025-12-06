@@ -33,7 +33,8 @@ namespace SIMS_Project.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.FullName),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                 };
 
                 var identity = new ClaimsIdentity(claims, "CookieAuth");
@@ -46,9 +47,9 @@ namespace SIMS_Project.Controllers
                 {
                     return RedirectToAction("Index", "Admin");
                 }
-                else if (user.Role == "Student")
+                else if (user.Role == "Instructor") 
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Instructor");
                 }
                 return RedirectToAction("Index", "Home");
 
@@ -99,7 +100,7 @@ namespace SIMS_Project.Controllers
         // 5. Trang báo lỗi khi không có quyền
         public IActionResult AccessDenied()
         {
-            return View();
+            return View(); // This looks for Views/User/AccessDenied.cshtml
         }
     }
 }

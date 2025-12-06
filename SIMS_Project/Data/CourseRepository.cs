@@ -29,6 +29,9 @@ namespace SIMS_Project.Data
         {
             var list = GetAllCourses();
             course.Id = list.Count > 0 ? list.Max(c => c.Id) + 1 : 1;
+
+            course.CreatedAt = DateTime.Now;
+
             list.Add(course);
             WriteFile(list);
         }
@@ -54,6 +57,10 @@ namespace SIMS_Project.Data
             {
                 csv.WriteRecords(list);
             }
+        }
+        public List<Course> GetCoursesByInstructor(int instructorId)
+        {
+            return GetAllCourses().Where(c => c.InstructorId == instructorId).ToList();
         }
     }
 }

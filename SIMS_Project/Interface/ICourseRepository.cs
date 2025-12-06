@@ -9,5 +9,8 @@ namespace SIMS_Project.Interface
         void AddCourse(Course course);
         void UpdateCourse(Course course);
         void DeleteCourse(int id);
+
+        // [NEW] Get courses for a specific instructor
+        List<Course> GetCoursesByInstructor(int instructorId);
     }
 }

@@ -1,0 +1,227 @@
+﻿@model SIMS_Project.Models.InstructorDashboardViewModel
+
+@{
+    ViewData["Title"] = "Instructor Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure this matches your layout path
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    /* Stats Cards */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .stat-card:hover { transform: translateY(-5px); }
+    .stat-icon { font-size: 2rem; color: #00b09b; margin-bottom: 1rem; }
+    .stat-number { font-size: 1.8rem; font-weight: 700; color: #333; margin-bottom: 0.5rem; }
+    .stat-label { color: #666; font-weight: 500; }
+
+    /* Welcome Section */
+    .welcome-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .welcome-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: #333; }
+    .welcome-subtitle { color: #666; font-size: 1.1rem; }
+
+    /* Layout Grid */
+    .content-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
+    /* Courses Section */
+    .courses-section {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .section-header {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .section-title { font-size: 1.3rem; font-weight: 600; color: #333; margin: 0; }
+    .section-action { color: #00b09b; text-decoration: none; font-weight: 500; }
+
+    .courses-grid {
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    /* Course Card */
+    .course-card {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .course-card:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
+
+    .course-header {
+        background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+        color: white;
+        padding: 1.5rem;
+    }
+    .course-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .course-stats { display: flex; gap: 1rem; font-size: 0.9rem; opacity: 0.9; }
+
+    .course-content { padding: 1.5rem; }
+    .course-description { color: #666; margin-bottom: 1rem; line-height: 1.5; font-size: 0.95rem; height: 3em; overflow: hidden;}
+    .course-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+    /* Buttons */
+    .btn-custom { padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 0.9rem; transition: all 0.3s; display: inline-block; color: white; }
+    .btn-primary-custom { background: #00b09b; }
+    .btn-primary-custom:hover { background: #089e8a; color: white; }
+    .btn-secondary-custom { background: #6c757d; }
+    .btn-secondary-custom:hover { background: #5a6268; color: white;}
+    .btn-warning-custom { background: #ffc107; color: #212529; }
+    .btn-warning-custom:hover { background: #e0a800; color: #212529; }
+
+    /* Sidebar */
+    .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+    .sidebar-card { background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); overflow: hidden; }
+    .sidebar-content { padding: 1.5rem; }
+
+    /* Responsive */
+    @@media (max-width: 992px) {
+        .content-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+<div class="main-content">
+    <div class="welcome-section">
+        <h1 class="welcome-title">Welcome back, @Model.Instructor?.FullName!</h1>
+        <p class="welcome-subtitle">Empowering education through innovative digital learning management.</p>
+
+        <div style="margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 8px;">
+            <h3 style="color: #00b09b; margin-bottom: 1rem; font-size: 1.3rem;">
+                <i class="fas fa-graduation-cap"></i> Cesus Learning Management System
+            </h3>
+            <div style="background: white; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                <h4 style="color: #00b09b; margin-bottom: 1rem; font-size: 1.1rem;">
+                    <i class="fas fa-lightbulb"></i> Quick Actions
+                </h4>
+                <a asp-action="CreateCourse" class="btn-custom btn-primary-custom">+ Create New Course</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-book"></i></div>
+            <div class="stat-number">@Model.TotalCourses</div>
+            <div class="stat-label">Total Courses</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+            <div class="stat-number">@Model.TotalStudents</div>
+            <div class="stat-label">Total Students</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+            <div class="stat-number">@Model.TotalAssignments</div>
+            <div class="stat-label">Assignments</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+            <div class="stat-number">@Model.PendingGrades</div>
+            <div class="stat-label">Pending Grades</div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="courses-section">
+            <div class="section-header">
+                <h2 class="section-title">My Courses</h2>
+                <a asp-action="MyCourses" class="section-action">Manage All</a>
+            </div>
+            <div class="courses-grid">
+                @foreach (var course in Model.Courses)
+                {
+                    <div class="course-card">
+                        <div class="course-header">
+                            <h3 class="course-title">@course.CourseName</h3>
+                            <div class="course-stats">
+                                <span><i class="fas fa-users"></i> @course.StudentCount students</span>
+                                <span><i class="fas fa-tasks"></i> @course.AssignmentCount assignments</span>
+                            </div>
+                        </div>
+                        <div class="course-content">
+                            <p class="course-description">
+                                @(course.Description != null && course.Description.Length > 100
+                                                            ? course.Description.Substring(0, 100) + "..."
+                                                            : course.Description)
+                            </p>
+                            <div class="course-actions">
+                                <a asp-action="CourseManager" asp-route-id="@course.Id" class="btn-custom btn-primary-custom">View Course</a>
+                                <a href="#" class="btn-custom btn-secondary-custom">Assignments</a>
+                                <a href="#" class="btn-custom btn-warning-custom">Grade Work</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (Model.Courses.Count == 0)
+                {
+                    <div style="grid-column: 1/-1; text-align:center; padding: 2rem;">
+                        <p class="text-muted">You haven't created any courses yet.</p>
+                        <a asp-action="CreateCourse" class="btn-custom btn-primary-custom">Create First Course</a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-card">
+                <div class="section-header">
+                    <h3 class="section-title">System Features</h3>
+                </div>
+                <div class="sidebar-content">
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                        <h4 style="color: #00b09b; font-size: 1rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-link"></i> Link Validation
+                        </h4>
+                        <p style="color: #666; font-size: 0.9rem; margin: 0;">
+                            Check external links submitted by students for accessibility.
+                        </p>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+                        <h4 style="color: #00b09b; font-size: 1rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-chart-bar"></i> Progress Tracking
+                        </h4>
+                        <p style="color: #666; font-size: 0.9rem; margin: 0;">
+                            Monitor student progress and performance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

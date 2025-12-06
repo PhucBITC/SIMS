@@ -10,6 +10,9 @@ builder.Services.AddScoped<IStudentRepository, SIMS_Project.Data.StudentReposito
 builder.Services.AddScoped<ICourseRepository, SIMS_Project.Data.CourseRepository>();
 builder.Services.AddScoped<IEnrollmentRepository, SIMS_Project.Data.EnrollmentRepository>();
 builder.Services.AddScoped<IUserRepository, SIMS_Project.Data.UserRepository>();
+builder.Services.AddScoped<IAssignmentRepository, SIMS_Project.Data.AssignmentRepository>();
+builder.Services.AddScoped<ISubmissionRepository, SIMS_Project.Data.SubmissionRepository>();
+builder.Services.AddScoped<IMaterialRepository, SIMS_Project.Data.MaterialRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
