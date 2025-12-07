@@ -1,3 +1,4 @@
 Id,Email,Username,Password,Role,FullName
-0,bnm915915@gmail.com,Long,123,Instructor,TuongLong
-0,ntc915915@gmail.com,admin,123,Admin,Long
+0,test123@gmail.com,admin,123456,Admin,Quản Trị Viên
+0,user@gmail.com,user,123456,Student,User
+0,gv@gmail.com,gv,123456,Instructor,gv

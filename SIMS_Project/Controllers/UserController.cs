@@ -47,11 +47,14 @@ namespace SIMS_Project.Controllers
                 {
                     return RedirectToAction("Index", "Admin");
                 }
-                else if (user.Role == "Instructor") 
+                else if (user.Role == "Instructor")
                 {
                     return RedirectToAction("Index", "Instructor");
                 }
-                return RedirectToAction("Index", "Home");
+                else
+                {
+                    return RedirectToAction("Index", "Instructor");
+                }
 
 
             }
