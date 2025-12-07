@@ -1,102 +1,150 @@
 ﻿@{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Admin Dashboard Overview";
 }
 
-<div class="container my-4">
-    <!-- Statistics -->
+<div class="container-fluid my-4">
     <div class="row g-4 mb-4">
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-center shadow-sm">
+        <div class="col-sm-6 col-md-3">
+            <div class="card shadow-sm border-start border-success border-4 h-100">
                 <div class="card-body">
-                    <div class="mb-2 text-primary fs-2">
-                        <i class="fas fa-user-graduate"></i>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="text-secondary fw-bold text-uppercase small">Doanh thu tháng</div>
+                        <div class="text-success bg-success bg-opacity-10 p-2 rounded">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
                     </div>
-                    <h3 class="card-title">120</h3>
-                    <p class="card-text text-muted">Total Students</p>
+                    <h3 class="card-title fw-bold mb-0">$24,500</h3>
+                    <small class="text-success fw-bold"><i class="fas fa-arrow-up"></i> 12%</small>
+                    <small class="text-muted">so với tháng trước</small>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-center shadow-sm">
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card shadow-sm border-start border-primary border-4 h-100">
                 <div class="card-body">
-                    <div class="mb-2 text-warning fs-2">
-                        <i class="fas fa-chalkboard-teacher"></i>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="text-secondary fw-bold text-uppercase small">Học viên mới</div>
+                        <div class="text-primary bg-primary bg-opacity-10 p-2 rounded">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
                     </div>
-                    <h3 class="card-title">15</h3>
-                    <p class="card-text text-muted">Total Instructors</p>
+                    <h3 class="card-title fw-bold mb-0">120</h3>
+                    <small class="text-danger fw-bold"><i class="fas fa-arrow-down"></i> 5%</small>
+                    <small class="text-muted">tuần này</small>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-center shadow-sm">
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card shadow-sm border-start border-warning border-4 h-100">
                 <div class="card-body">
-                    <div class="mb-2 text-danger fs-2">
-                        <i class="fas fa-user-shield"></i>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="text-secondary fw-bold text-uppercase small">Chờ duyệt GV</div>
+                        <div class="text-warning bg-warning bg-opacity-10 p-2 rounded">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
                     </div>
-                    <h3 class="card-title">5</h3>
-                    <p class="card-text text-muted">Total Admins</p>
+                    <h3 class="card-title fw-bold mb-0">3</h3>
+                    <small class="text-muted">yêu cầu đang chờ xử lý</small>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="card text-center shadow-sm">
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card shadow-sm border-start border-info border-4 h-100">
                 <div class="card-body">
-                    <div class="mb-2 text-success fs-2">
-                        <i class="fas fa-book"></i>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="text-secondary fw-bold text-uppercase small">Khóa học hoạt động</div>
+                        <div class="text-info bg-info bg-opacity-10 p-2 rounded">
+                            <i class="fas fa-book-open"></i>
+                        </div>
                     </div>
-                    <h3 class="card-title">30</h3>
-                    <p class="card-text text-muted">Total Courses</p>
+                    <h3 class="card-title fw-bold mb-0">30</h3>
+                    <small class="text-muted">trên tổng số 35 khóa</small>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Content Grid -->
     <div class="row g-4">
-        <!-- User Management -->
         <div class="col-lg-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0">User Management</h5>
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                    <h5 class="mb-0 fw-bold">🔥 Khóa học nổi bật tháng này</h5>
+                    <a href="#" class="btn btn-sm btn-outline-primary">Xem tất cả</a>
                 </div>
-                <div class="card-body p-0 table-responsive">
-                    <table class="table table-hover mb-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th>Full Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Actions</th>
+                                <th>Tên khóa học</th>
+                                <th>Giảng viên</th>
+                                <th>Giá</th>
+                                <th>Trạng thái</th>
+                                <th>Doanh số</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>John Doe</td>
-                                <td>johndoe</td>
-                                <td>john@example.com</td>
-                                <td><span class="badge bg-primary">Student</span></td>
                                 <td>
-                                    <select class="form-select form-select-sm d-inline w-auto">
-                                        <option selected>Student</option>
-                                        <option>Instructor</option>
-                                        <option>Admin</option>
-                                    </select>
-                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary text-white rounded p-2 me-2"><i class="fab fa-react"></i></div>
+                                        <div>
+                                            <div class="fw-bold">ReactJS Advanced</div>
+                                            <small class="text-muted">Web Development</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Jane Smith</td>
+                                <td>$49.99</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="me-2">80%</span>
+                                        <div class="progress" style="width: 100px; height: 6px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 80%"></div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Jane Smith</td>
-                                <td>janesmith</td>
-                                <td>jane@example.com</td>
-                                <td><span class="badge bg-warning text-dark">Instructor</span></td>
                                 <td>
-                                    <select class="form-select form-select-sm d-inline w-auto">
-                                        <option>Student</option>
-                                        <option selected>Instructor</option>
-                                        <option>Admin</option>
-                                    </select>
-                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-warning text-dark rounded p-2 me-2"><i class="fab fa-python"></i></div>
+                                        <div>
+                                            <div class="fw-bold">Python for AI</div>
+                                            <small class="text-muted">Data Science</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Dr. Alan</td>
+                                <td>$89.99</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="me-2">65%</span>
+                                        <div class="progress" style="width: 100px; height: 6px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-info text-white rounded p-2 me-2"><i class="fas fa-paint-brush"></i></div>
+                                        <div>
+                                            <div class="fw-bold">UI/UX Fundamental</div>
+                                            <small class="text-muted">Design</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Sarah L.</td>
+                                <td>$29.99</td>
+                                <td><span class="badge bg-secondary">Draft</span></td>
+                                <td>
+                                    <small class="text-muted">Chưa publish</small>
                                 </td>
                             </tr>
                         </tbody>
@@ -105,32 +153,45 @@
             </div>
         </div>
 
-        <!-- Recent Activities -->
         <div class="col-lg-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0">Recent Activities</h5>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">⚡ Thao tác nhanh</h5>
                 </div>
-                <div class="card-body p-0">
-                    <div class="d-flex align-items-center border-bottom p-2">
-                        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-2"
-                             style="width:40px;height:40px;">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div>
-                            <h6 class="mb-0">Alice</h6>
-                            <small class="text-muted">Registered - Mar 10, 2024 3:45 PM</small>
-                        </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary"><i class="fas fa-plus-circle me-2"></i> Tạo khóa học mới</button>
+                        <button class="btn btn-outline-dark"><i class="fas fa-user-check me-2"></i> Duyệt giảng viên (3)</button>
+                        <button class="btn btn-outline-secondary"><i class="fas fa-file-export me-2"></i> Xuất báo cáo tháng</button>
                     </div>
-                    <div class="d-flex align-items-center border-bottom p-2">
-                        <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center me-2"
-                             style="width:40px;height:40px;">
-                            <i class="fas fa-user-plus"></i>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">🔔 Hoạt động gần đây</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1 text-primary">Alice Nguyen</h6>
+                            <small class="text-muted">3p trước</small>
                         </div>
-                        <div>
-                            <h6 class="mb-0">Bob</h6>
-                            <small class="text-muted">Enrolled in Course - Mar 12, 2024 11:20 AM</small>
+                        <p class="mb-1 small">Đã đăng ký khóa học <strong>ReactJS Advanced</strong>.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1 text-danger">System Alert</h6>
+                            <small class="text-muted">1h trước</small>
                         </div>
+                        <p class="mb-1 small">Có 5 báo cáo nội dung vi phạm từ khóa học SEO Basic.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Bob Tran</h6>
+                            <small class="text-muted">2h trước</small>
+                        </div>
+                        <p class="mb-1 small">Đánh giá 5 sao cho giảng viên <strong>Jane Smith</strong>.</p>
                     </div>
                 </div>
             </div>
