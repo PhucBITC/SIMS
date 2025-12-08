@@ -1,0 +1,31 @@
+@model List<CourseViewModel>
+
+<h2>All My Courses</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Students</th> <!-- số lượng sinh viên -->
+            <th>Name</th> <!-- tên khóa học -->
+            <th>Description</th> <!-- mô tả khóa học -->
+            <th>Assignments</th> <!-- số lượng bài tập -->
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.StudentCount</td>
+                <td>@c.CourseName</td>
+                <td>@c.Description</td>
+                <td>@c.AssignmentCount</td>
+                <td>
+                    <a asp-action="CourseManager" asp-route-id="@c.Id" class="btn btn-primary btn-sm">
+                        Manage
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

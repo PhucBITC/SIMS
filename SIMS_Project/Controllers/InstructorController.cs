@@ -58,13 +58,12 @@ namespace SIMS_Project.Controllers
                 Instructor = instructor,
                 Courses = courseViewModels,
                 TotalCourses = myCourses.Count,
-                TotalStudents = totalStudents, 
+                TotalStudents = totalStudents,
                 TotalAssignments = courseViewModels.Sum(c => c.AssignmentCount),
             };
 
             return View(viewModel);
         }
-
 
         public IActionResult CourseManager(int id)
         {
@@ -76,6 +75,28 @@ namespace SIMS_Project.Controllers
 
             return View(course);
         }
+
+        public IActionResult ShowAllCourse()
+        {
+            int instructorId = GetCurrentUserId();
+            var myCourses = _courseRepo.GetCoursesByInstructor(instructorId);
+
+            var allEnrollments = _enrollmentRepo.GetAll();
+
+            var courseViewModels = myCourses.Select(c => new CourseViewModel
+            {
+                Id = c.Id,
+                CourseName = c.CourseName,
+                CourseCode = c.CourseCode,
+                Description = c.Description,
+                StudentCount = allEnrollments.Count(e => e.CourseId == c.Id),
+                AssignmentCount = _assignmentRepo.GetByCourse(c.Id).Count
+            }).ToList();
+
+            return View(courseViewModels);
+        }
+
+
 
         [HttpPost]
         public IActionResult CreateAssignment(int courseId, string title, DateTime dueDate, string description)

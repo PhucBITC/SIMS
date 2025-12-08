@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,103 +10,92 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/SIMS_Project.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-    @if (!(ViewData["NoHeaderFooter"] as bool? ?? false))
-    {
-        <!-- HEADER -->
-        <header class="sticky-top">
-            <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm">
-                <div class="container">
+    <!-- HEADER -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm">
+            <div class="container">
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <li class="nav-item">
-                                    @* 1. Dynamic Dashboard Link *@
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">Dashboard</a>
-                                    }
-                                    else if (User.IsInRole("Instructor"))
-                                    {
-                                        <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Instructor" asp-action="Index">Dashboard</a>
-                                    }
-                                    else
-                                    {
-                                        <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">Dashboard</a>
-                                    }
-                            {
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                    SIMS_Project
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <!-- LEFT MENU -->
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <!-- Dynamic Dashboard -->
+                            <li class="nav-item">
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    <li class="nav-item">
-                                        <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Admin" asp-action="Index">Dashboard</a>
-
-                                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                                            <span class="navbar-toggler-icon"></span>
-                                        </button>
-                                    </li>
-
-                                @* 2. ADMIN ONLY MENUS *@
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link fw-bold text-dark" asp-controller="Student" asp-action="Index">Manage Student</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link fw-bold text-dark" asp-controller="Course" asp-action="Index">Manage Course</a>
-                                    </li>
+                                    <a class="nav-link fw-bold" asp-controller="Admin" asp-action="Index">Dashboard</a>
                                 }
-
-                                @* 3. STUDENT ONLY MENUS *@
-                                @if (User.IsInRole("Student"))
+                                else if (User.IsInRole("Instructor"))
                                 {
-                                    <li class="nav-item">
-                                        <a class="nav-link fw-bold text-dark" asp-controller="Enrollment" asp-action="Index">Đăng ký Môn học</a>
-                                    </li>
+                                    <a class="nav-link fw-bold" asp-controller="Instructor" asp-action="Index">Dashboard</a>
                                 }
-                                    <li class="nav-item">
-                                        <a class="nav-link fw-bold text-dark" asp-controller="Student" asp-action="Index">Manage Student</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link fw-bold text-dark" asp-controller="Course" asp-action="Index">Manage Course</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link fw-bold text-dark" asp-controller="Enrollment" asp-action="Index">Đăng ký Môn học</a>
-                                    </li>
-                            } else if (User.IsInRole("Instructor"))
+                                else
+                                {
+                                    <a class="nav-link fw-bold" asp-controller="Home" asp-action="Index">Dashboard</a>
+                                }
+                            </li>
+
+                            <!-- Admin Only Menu -->
+                            @if (User.IsInRole("Admin"))
                             {
-                                
-                            }
-                        } 
-                            else{
                                 <li class="nav-item">
-                                    <a class="nav-link navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">SIMS_Project</a>
-
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                                        <span class="navbar-toggler-icon"></span>
-                                    </button>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Features</a>
+                                    <a class="nav-link text-dark fw-bold" asp-controller="Student" asp-action="Index">Manage
+                                        Student</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Why Choose Us</a>
+                                    <a class="nav-link text-dark fw-bold" asp-controller="Course" asp-action="Index">Manage
+                                        Course</a>
                                 </li>
                             }
+
+                            <!-- Student Only Menu -->
+                            @if (User.IsInRole("Student"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark fw-bold" asp-controller="Enrollment" asp-action="Index">Đăng ký
+                                        Môn học</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <!-- Not Logged In -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Why Choose Us</a>
+                            </li>
+                        }
+
                     </ul>
 
-                        <ul class="navbar-nav mb-2 mb-sm-0 d-flex align-items-center">
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                    <!-- RIGHT MENU -->
+                    <ul class="navbar-nav d-flex align-items-center">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             <li class="nav-item ms-2 position-relative">
-                                <a class="btn btn-outline-danger btn-sm"
-                                   href="#"
-                                   onclick="toggleProfileMenu()">
+                                <a class="btn btn-outline-danger btn-sm" href="#" onclick="toggleProfileMenu()">
                                     Xin chào, <strong>@User.Identity.Name</strong>
                                     <i class="fa-solid fa-angle-down"></i>
                                 </a>
@@ -115,38 +105,40 @@
                                     <li><a href="/User/Logout">Đăng xuất</a></li>
                                 </ul>
                             </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-primary btn-sm" asp-controller="User" asp-action="Login">Đăng nhập</a>
+                            </li>
+                        }
 
+                    </ul>
 
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="btn btn-primary btn-sm" asp-controller="User" asp-action="Login">Đăng nhập</a>
-                                </li>
-                            }
-                        </ul>
-
-                    </div>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
+    </header>
 
-    <main role="main" class="pb-4">
+
+    <main role="main" class="pb-4 mt-3">
         <div class="container">
             @RenderBody()
         </div>
     </main>
 
 
-        <footer class="container text-center p-4 bg-light mt-auto">
+    <footer class="bg-light">
+        <div class="container text-center p-4 bg-light">
             &copy; 2024 - SIMS_Project -
             <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
-        </footer>
+            </>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
-     
